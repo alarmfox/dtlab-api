@@ -9,7 +9,7 @@ The app will provide 3 core functionalities:
 * **Managing switches**: users will have a CRUD interface for switches;
 * **Managing routers**: users will have a CRUD interface for routers;
 
-Each group will find more instructions for its task in the [*issues*](https://github.com/g-capasso/dtlab-api/issues) section.
+Each group will find more instructions for its task in the [*issues*](https://github.com/alarmfox/dtlab-api/issues) section.
 
 *WARN* The following are guidelines. You can discuss on how to implement your solution to accomplish the task.
 
