@@ -3,12 +3,6 @@ from models import Switch, db
 
 switches_blueprint = Blueprint('switches', __name__)
 
-
-@switches_blueprint.route('', methods=['GET'])
-def all() -> str:
-    return jsonify([switch.serialize() for switch in Switch.query.all()])
-
-
 @switches_blueprint.route('/<id>', methods=['GET'])
 def one(id: str):
     if not id.isdigit():
