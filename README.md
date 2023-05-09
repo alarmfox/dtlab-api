@@ -40,15 +40,15 @@ Now let's create the REST server using Flask, using the following command:
 flask run
 ```
 
-*HINT* to enable hot reload when developing, set `FLASK_ENV` variable to `development`. For example, on Linux:
+*HINT* to enable hot reload when developing, use `--debug` flag when running the application:
 
-```
-FLASK_ENV=development flask run
+```sh
+flask run --debug
 ```
 
 Check if everything is working using the following command:
 
-```
+```sh
 curl http://localhost:5000/test
 ```
 
@@ -110,7 +110,7 @@ switch = Switch.query.filter_by(id=1).first()
 #### Serialization
 
 Serialization is about transforming an object into a string, so it can be send over the network as a stream of bytes. As it can be a very hard operation, every model in `models.py` offer a serialize method.
-In order to return JSON object, you have tu use the `jsonify` function from Flask library.
+In order to return JSON object, you must use the `jsonify` function from Flask library.
 
 ```python
 from db import db, Router
@@ -119,6 +119,9 @@ from flask import jsonify
 router = Router.query.filter_by(id=1).first()
 jsonify(router.serialize())
 ```
+
+# Coding time!
+Now you can go to the issues section and look for your task! Once finished, you can return here and commit your changes.
 
 ### Part 3 - Commit your changes (10 minutes)
 

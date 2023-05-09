@@ -13,14 +13,14 @@ load_dotenv()
 # create flask instance
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] =  os.getenv("DB_URI")
 
-app.config['SQLALCHEMY_DATABASE_URI'] =  os.getenv("DB_URL")
-
-# db connection
+# db connection ana start application
 from models import db
 
 db.init_app(app)
 
+# create all models
 with app.app_context():
     db.create_all()
 

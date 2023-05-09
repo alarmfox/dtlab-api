@@ -1,54 +1,48 @@
+import json
 from flask import Blueprint, jsonify, request
-from models import Router, Interface, db
+from models import Router, db
 
 router_blueprint = Blueprint('routers', __name__)
 
 @router_blueprint.route('', methods=['POST'])
 def create():
-    data: dict = request.get_json()
+    pass
 
-    hostname: str = data.get('hostname')
-    if hostname == '' or hostname is None:
-        return jsonify({
-            'error': 'invalid or missing hostname'
-        }), 400
+@router_blueprint.route('/<id>', methods=['GET'])
+def get_all():
+    pass 
 
-    interfaces = []
-    # TODO: handle if interfaces are missing
-    for interface in data.get('interfaces'):
-        # TODO: verify correctness of ip and netmask
-        interfaces.append(Interface(
-            name=interface['name'],
-            ip=interface['ip'],
-            netmask=interface['netmask'],
-            description=interface['description'],
-            active=interface['active']
-        ))
+@router_blueprint.route('/<id>', methods=['GET'])
+def one(id: str):
+    pass
 
-    r = Router(
-        hostname=hostname,
-        motd=data.get('motd'),
-        interfaces=interfaces,
-    )
-    db.session.add(r)
-    db.session.commit()
+# CREATE Delete router from scratch. It will be very similar to GET /<id>
 
-    return jsonify(r.serialize()), 201
-
-
-@router_blueprint.route('/<id>', methods=['DELETE'])
-def delete(id: str):
+@router_blueprint.route('/<id>', methods=['PUT'])
+def update(id: str):
     if not id.isdigit():
         return jsonify({
             'error': 'id must be an integer'
         }), 400
+    
+    data: dict = request.get_json()
 
-    r = Router.query.filter_by(id=int(id)).delete()
-    db.session.commit()
+    # search by id
+    router = Router.query.filter_by(id=int(id)).first()
 
-    if r == 0:
+    # return not found if not exists
+    if router is None: 
         return jsonify({
             'error': 'not found'
         }), 404
 
-    return '', 204
+    # update fields
+    router.motd = data["motd"]
+    router.hostname = data["hostname"]
+    router.interfaces =  str(json.dumps(data["interfaces"]))
+
+    # save result
+    db.session.add(router)
+    db.session.commit()
+
+    return jsonify(router.serialize()), 200

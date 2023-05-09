@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import json
 
 db: SQLAlchemy = SQLAlchemy()
 
@@ -9,7 +10,7 @@ class Router(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     hostname = db.Column(db.String)
     motd = db.Column(db.String)
-    interfaces = db.relationship('Interface', backref='router', cascade='all, delete-orphan')
+    interfaces = db.Column(db.String)
 
     def __repr__(self) -> str:
         return f'Router(id={self.id!r}, hostname={self.hostname!r})'
@@ -18,31 +19,8 @@ class Router(db.Model):
         return {
             'id': self.id,
             'hostname': self.hostname,
-            'interfaces': [interface.serialize() for interface in self.interfaces]
-        }
-
-class Interface(db.Model):
-
-    __tablename__ = 'interfaces'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    ip = db.Column(db.String)
-    netmask = db.Column(db.String)
-    description = db.Column(db.String)
-
-    router_id = db.Column(db.Integer, db.ForeignKey('routers.id', ondelete='CASCADE'), nullable=True)
-    active = db.Column(db.Boolean)
-
-    def __repr__(self) -> str:
-        return f'Interface(id={self.id!r}, address={self.address!r} netmask={self.netmask!r}) activated={self.activated!r} '
-
-    def serialize(self) -> dict:
-        return {
-            'name': self.name,
-            'active': self.active,
-            'ip': self.ip,
-            'netmask': self.netmask            
+            'motd': self.motd,
+            'interfaces':  json.loads(self.interfaces) if self.interfaces is not None else {}
         }
 
 class Switch(db.Model):
@@ -55,6 +33,8 @@ class Switch(db.Model):
     ip = db.Column(db.String)
     netmask = db.Column(db.String)
     motd = db.Column(db.String)
+    ports = db.Column(db.String)
+    interfaces = db.Column(db.String)
 
 
     def __repr__(self):
@@ -64,6 +44,7 @@ class Switch(db.Model):
         return {
             'id': self.id,
             'hostname': self.hostname,
-            'ip': self.ip,
-            'netmask': self.netmask
+            'motd': self.motd,
+            'ports': json.loads(self.ports) if self.ports is not None else {},
+            'interfaces': json.loads(self.interfaces) if self.interfaces is not None else {},
         }
