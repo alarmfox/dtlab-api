@@ -8,7 +8,7 @@ router_blueprint = Blueprint('routers', __name__)
 def create():
     pass
 
-@router_blueprint.route('/<id>', methods=['GET'])
+@router_blueprint.route('', methods=['GET'])
 def get_all():
     pass 
 

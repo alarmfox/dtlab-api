@@ -8,7 +8,7 @@ switches_blueprint = Blueprint('switches', __name__)
 def create():
     pass
 
-@switches_blueprint.route('/<id>', methods=['GET'])
+@switches_blueprint.route('/', methods=['GET'])
 def get_all():
     pass 
 
