@@ -6,17 +6,57 @@ switches_blueprint = Blueprint('switches', __name__)
 
 @switches_blueprint.route('', methods=['POST'])
 def create():
-    pass
+    data: dict = request.get_json()
 
-@switches_blueprint.route('/<id>', methods=['GET'])
+    try:
+        data["ports"] = str(json.dumps(data["ports"]))
+        data["interfaces"] = str(json.dumps(data["interfaces"]))
+        switch = Switch(**data)
+        db.session.add(switch)
+        db.session.commit()
+        return jsonify(switch.serialize()), 201
+    except KeyError as k:
+        return {"message": f"missing property key: {k}"}
+
+@switches_blueprint.route('/', methods=['GET'])
 def get_all():
-    pass 
+    switches = Switch.query.all()
+    return jsonify([switch.serialize() for switch in switches])  
 
 @switches_blueprint.route('/<id>', methods=['GET'])
 def one(id: str):
-    pass
+    if not id.isdigit():
+        return jsonify({
+            'error': 'id must be an integer'
+        }), 400
+    # search by id
+    switch = Switch.query.filter_by(id=int(id)).first()
 
-# CREATE Delete Switch from scratch. It will be very similar to GET /<id>
+    # return not found if not exists
+    if switch is None: 
+        return jsonify({
+            'error': 'not found'
+        }), 404
+
+    return jsonify(switch.serialize())
+
+
+@switches_blueprint.route('/<id>', methods=['DELETE'])
+def delete(id: str):
+    if not id.isdigit():
+        return jsonify({
+            'error': 'id must be an integer'
+        }), 400
+
+    switch = Switch.query.filter_by(id=int(id)).delete()
+    db.session.commit()
+
+    if switch == 0:
+        return jsonify({
+            'error': 'not found'
+        }), 404
+
+    return '', 204
 
 @switches_blueprint.route('/<id>', methods=['PUT'])
 def update():
@@ -40,6 +80,7 @@ def update():
     switch.motd = data["motd"]
     switch.hostname = data["hostname"]
     switch.interfaces =  str(json.dumps(data["interfaces"]))
+    switch.ports =  str(json.dumps(data["ports"]))
 
     # save result
     db.session.add(switch)
