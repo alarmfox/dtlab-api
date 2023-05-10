@@ -16,7 +16,7 @@ def create():
         db.session.commit()
         return jsonify(switch.serialize()), 201
     except KeyError as k:
-        return {"message": f"missing property key: {k}"}
+        return {"message": f"missing property key: {k}"}, 400
 
 @switches_blueprint.route('/', methods=['GET'])
 def get_all():
@@ -59,7 +59,7 @@ def delete(id: str):
     return '', 204
 
 @switches_blueprint.route('/<id>', methods=['PUT'])
-def update():
+def update(id: str):
     if not id.isdigit():
         return jsonify({
             'error': 'id must be an integer'
@@ -75,12 +75,17 @@ def update():
         return jsonify({
             'error': 'not found'
         }), 404
+    
+    try:
 
-    # update fields
-    switch.motd = data["motd"]
-    switch.hostname = data["hostname"]
-    switch.interfaces =  str(json.dumps(data["interfaces"]))
-    switch.ports =  str(json.dumps(data["ports"]))
+        # update fields
+        switch.motd = data["motd"]
+        switch.hostname = data["hostname"]
+        switch.interfaces =  str(json.dumps(data["interfaces"]))
+        switch.ports =  str(json.dumps(data["ports"]))
+
+    except KeyError as k:
+        return {"message": f"missing property key: {k}"}, 400
 
     # save result
     db.session.add(switch)

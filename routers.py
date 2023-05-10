@@ -19,7 +19,7 @@ def create():
         return jsonify(router.serialize()), 201
 
     except KeyError as k:
-        return {"message": f"missing property key: {k}"}
+        return {"message": f"missing property key: {k}"}, 400
 
 
 @router_blueprint.route('', methods=['GET'])
@@ -78,11 +78,16 @@ def update(id: str):
         return jsonify({
             'error': 'not found'
         }), 404
+    
+    try:
 
-    # update fields
-    router.motd = data["motd"]
-    router.hostname = data["hostname"]
-    router.interfaces =  str(json.dumps(data["interfaces"]))
+        # update fields
+        router.motd = data["motd"]
+        router.hostname = data["hostname"]
+        router.interfaces =  str(json.dumps(data["interfaces"]))
+
+    except KeyError as k:
+        return {"message": f"missing property key: {k}"}, 400
 
     # save result
     db.session.add(router)
