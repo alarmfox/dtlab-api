@@ -18,12 +18,14 @@ Each group will find more instructions for its task in the [*issues*](https://gi
 ### Part 1 - Create a development environment (10 minutes)
 
 The application uses [Flask](https://flask.palletsprojects.com/en/2.1.x/) and [Postgres](https://www.postgresql.org/docs/). 
-First of all, install project dependencies after creating a new virtual env using the following command:
+First of all, as you learned in *Module 1*, you will have to create a new virtual environment for Python which will be used to install project dependencies.
 
-```
+Then you may install project requirements with the following command:
+
+```sh
 pip install -r requirements.txt
 ```
-
+We will use *Postgresql*. It is a relational database (all data is stored into tables).
 Start a Postgres instance using Docker. The application loads database configuration from `.env` file. In order to start Postgres, use the following command:
 
 ```sh
@@ -32,7 +34,8 @@ docker run -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:alpine
 
 *Think*: what does this command do? Try to understand every parameter to be able to explain it to other groups!
 
-*WARNING* database configuration must match with the one provided in `.env`. Do not change variable names but only values (*after = sign*).
+*WARNING* The application reads the database connection string from `.env` file. If you change the `POSTGRES_PASSWORD` you must adapt the `.env` password with your password. You should know 
+that the standard format for a complete Postgres URI is: `postgresql://user:password@hostname:port/database_name?query_params`.
 
 Now let's create the REST server using Flask, using the following command:
 
@@ -40,7 +43,7 @@ Now let's create the REST server using Flask, using the following command:
 flask run
 ```
 
-*HINT* to enable hot reload when developing, use `--debug` flag when running the application:
+*HINT* to enable hot reload (the application restarts when you modify a file) when developing, use `--debug` flag when running the application:
 
 ```sh
 flask run --debug
@@ -54,6 +57,13 @@ curl http://localhost:5000/test
 
 or just open the browser at the `/test` endpoint!
 
+## Project structure
+The application is divided in 4 files:
+* `app.py`: main entrypoint for the flask application. Here a connection to the database is made and endpoints are mounted. You don't need to modify this file;
+* `models.py`: contains database utils class. You can use this to know the properties of routers and switches. You don't need to modify this file;
+* `routers.py`: contains all functions to manage routers. A group of you wil modify this file to add the required functionalites;
+* `switches.py`: contains all functions to manage switches. A group of you wil modify this file to add the required functionalites;
+
 ### Part 2 - Implement the assigned function (40 minutes)
 
 A CRUD interface is a set of standard operations that permits to Create, Read, Update and Delete data and represents the fundamental of a REST API.
@@ -61,13 +71,13 @@ A CRUD interface is a set of standard operations that permits to Create, Read, U
 Depending on what you have been assigned, open the correct file and create the requested endpoint. In each file, there is a variable called `~_blueprint` which holds the router.
 Looking at the example routes and the documentation create the requested endpoint, minding that all routes are prefixed with a prefix specifified in `app.py`. For example, the switch endpoint is mounted at `/switches` which means that all requests that are going to hit the switches endpoint must match with this prefix. For example, a `GET` request may look like:
 
-```
+```sh
 curl http://localhost:5000/switches
 ```
 
 So everything added to the path will be appended to the prefix, for example a `/all` endpoint will become:
 
-```
+```sh
 curl http://localhost:5000/switches/all
 ```
 
@@ -123,11 +133,24 @@ jsonify(router.serialize())
 # Coding time!
 Now you can go to the issues section and look for your task! Once finished, you can return here and commit your changes.
 
+You may return here when you think it's time to start to prepare the presentation!
+
+
 ### Part 3 - Commit your changes (10 minutes)
 
 After finishing the implementation, it's time to commit new changes and submit a pull request to the central repository!
 
-You can learn on how to submit a pull request [here](https://opensource.com/article/19/7/create-pull-request-github).
+If you have create a new branch when developing, you can commit your changes and push to github with the following commands:
+
+```sh
+git commit -am "<your-commit-comment>"
+git push origin <your-branch-name>
+```
+Then you can navigate to [here](https://github.com/alarmfox/dtlab-api/pulls) and create a new pull request selected the branch you created.
+
+### Part 4 - Prepare the presentation
+Other groups have different tasks so they will learn all about REST APIs thanks to your presentation!
+
 
 ## Bonus activities
 
