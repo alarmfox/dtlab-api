@@ -135,14 +135,22 @@ Now you can go to the issues section and look for your task! Once finished, you 
 
 You may return here when you think it's time to start to prepare the presentation!
 
-### Part 3 - Prepare the presentation
-Other groups have different tasks so they will learn all about REST APIs thanks to your presentation!
 
-### Part 4 - Commit your changes (10 minutes)
+### Part 3 - Commit your changes (10 minutes)
 
 After finishing the implementation, it's time to commit new changes and submit a pull request to the central repository!
 
-You can learn on how to submit a pull request [here](https://opensource.com/article/19/7/create-pull-request-github).
+If you have create a new branch when developing, you can commit your changes and push to github with the following commands:
+
+```sh
+git commit -am "<your-commit-comment>"
+git push origin <your-branch-name>
+```
+Then you can navigate to [here](https://github.com/alarmfox/dtlab-api/pulls) and create a new pull request selected the branch you created.
+
+### Part 4 - Prepare the presentation
+Other groups have different tasks so they will learn all about REST APIs thanks to your presentation!
+
 
 ## Bonus activities
 
