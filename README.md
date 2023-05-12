@@ -32,7 +32,7 @@ Start a Postgres instance using Docker. The application loads database configura
 docker run -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:alpine
 ```
 
-*Think*: what does this command do? Try to understand every parameter to be able to explain it to other groups!
+The Docker group will explain to you what this command does!
 
 *WARNING* The application reads the database connection string from `.env` file. If you change the `POSTGRES_PASSWORD` you must adapt the `.env` password with your password. You should know 
 that the standard format for a complete Postgres URI is: `postgresql://user:password@hostname:port/database_name?query_params`.
