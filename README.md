@@ -150,15 +150,6 @@ Other groups have different tasks so they will learn all about REST APIs thanks 
 
 Complete these activities once you have finished previous steps. The following steps can be completed at home either in group or individually.
 
-### Bonus 1 - Prepare the application for a Docker deploy
-
-Use what you have learned in chapter 6 to write a Dockerfile and deploy the application using the container model.
-
-Here you will have a problem. Once the application is running in Docker container, it is in an isolated enviroment in its own LAN. How does our server communicate with the database (which is in it's own container)?
-
-*HINT* in Docker you can create virtual networks. Docker will provide DNS service for two hosts in the same network, allowing to specify the container name as the hostname.
-You may need to re-deploy the database.
-
-### Bonus 2 - Protect the endpoint with authentication
+### Bonus 1 - Protect the endpoint with authentication
 
 Use what you have learned in chapter 4 and look at the [documentation](https://pythonhosted.org/Flask-JWT/) to protect your endpoint with JWT Authentication. 
