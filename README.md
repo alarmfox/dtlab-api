@@ -49,13 +49,7 @@ flask run
 flask run --debug
 ```
 
-Check if everything is working using the following command:
-
-```sh
-curl http://localhost:5000/test
-```
-
-or just open the browser at the `/test` endpoint!
+Check if everything is working. Open Postman and perform a GET request at http://localhost:5000 or just open the browser at the `/test` endpoint!
 
 ## Project structure
 The application is divided in 4 files:
@@ -68,7 +62,7 @@ The application is divided in 4 files:
 
 A CRUD interface is a set of standard operations that permits to Create, Read, Update and Delete data and represents the fundamental of a REST API.
 
-Depending on what you have been assigned, open the correct file and create the requested endpoint. In each file, there is a variable called `~_blueprint` which holds the router.
+Depending on what you have been assigned, open the correct file and create the requested endpoint. In each file, there is a variable called `~_blueprint` which holds the router (an object that maps the request to the function you created).
 Looking at the example routes and the documentation create the requested endpoint, minding that all routes are prefixed with a prefix specifified in `app.py`. For example, the switch endpoint is mounted at `/switches` which means that all requests that are going to hit the switches endpoint must match with this prefix. For example, a `GET` request may look like:
 
 ```sh
