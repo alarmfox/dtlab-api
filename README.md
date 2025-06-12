@@ -33,7 +33,6 @@ docker run -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:alpine
 Prepare a virtual environment for the Python application:
 
 ```sh
-cd app
 python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
